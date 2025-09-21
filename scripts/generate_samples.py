@@ -16,7 +16,8 @@ from PIL import Image
 # Add diffit to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from diffit.models import UShapedNetwork, LatentDiffiTNetwork
+from diffit.models import UShapedNetwork
+# from diffit.models import LatentDiffiTNetwork  # TODO: Implement when needed
 from diffit.diffusion import sample
 from diffit.utils import setup_logging
 
@@ -163,14 +164,33 @@ def main():
         print(f"📥 Loading model from {args.checkpoint}")
         
         if args.model_type == "image-space":
-            model = UShapedNetwork.load_from_checkpoint(
-                args.checkpoint,
-                map_location=device
+            # Load checkpoint and create model with proper parameters
+            checkpoint = torch.load(args.checkpoint, map_location=device)
+            
+            # Create model with standard parameters (should match training config)
+            model = UShapedNetwork(
+                learning_rate=0.001,  # Not used during inference
+                d_model=128,          # Standard from configs
+                num_heads=2,          # Standard from configs
+                dropout=0.1,          # Not used during inference
+                d_ff=256,             # 2 * d_model
+                img_size=args.image_size,
+                device=device,
+                denoising_steps=args.timesteps,
+                L1=2, L2=2, L3=2, L4=2  # Standard ResBlock group sizes
             )
+            
+            # Load the state dict
+            if 'state_dict' in checkpoint:
+                model.load_state_dict(checkpoint['state_dict'], strict=False)
+            else:
+                model.load_state_dict(checkpoint, strict=False)
         elif args.model_type == "latent-space":
-            model = LatentDiffiTNetwork.load_from_checkpoint(
-                args.checkpoint,
-                map_location=device
+            # TODO: Implement LatentDiffiTNetwork when needed
+            raise NotImplementedError(
+                "LatentDiffiTNetwork is not yet implemented. "
+                "Currently only UShapedNetwork (image-space) is available. "
+                "Please use model type 'image-space'."
             )
         
         model = model.to(device)

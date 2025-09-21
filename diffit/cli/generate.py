@@ -109,6 +109,21 @@ def main():
         help="Random seed for reproducibility"
     )
     
+    # Model configuration arguments
+    parser.add_argument(
+        "--d-model",
+        type=int,
+        default=128,
+        help="Model dimension (default: 128)"
+    )
+    
+    parser.add_argument(
+        "--num-heads",
+        type=int,
+        default=2,
+        help="Number of attention heads (default: 2)"
+    )
+    
     parser.add_argument(
         "--log-level",
         type=str,
@@ -144,10 +159,27 @@ def main():
         print(f"📥 Loading model from {args.checkpoint}")
         
         if args.model_type == "image-space":
-            model = UShapedNetwork.load_from_checkpoint(
-                args.checkpoint,
-                map_location=device
+            # Load checkpoint and extract hyperparameters
+            checkpoint = torch.load(args.checkpoint, map_location=device)
+            
+            # Create model with parameters (these should match training config)
+            model = UShapedNetwork(
+                learning_rate=0.001,  # Not used during inference
+                d_model=args.d_model,
+                num_heads=args.num_heads,
+                dropout=0.1,  # Not used during inference
+                d_ff=args.d_model * 2,  # Standard: 2 * d_model
+                img_size=args.image_size,
+                device=device,
+                denoising_steps=args.timesteps,
+                L1=2, L2=2, L3=2, L4=2  # Standard ResBlock group sizes
             )
+            
+            # Load the state dict
+            if 'state_dict' in checkpoint:
+                model.load_state_dict(checkpoint['state_dict'])
+            else:
+                model.load_state_dict(checkpoint)
         elif args.model_type == "latent-space":
             # TODO: Implement LatentDiffiTNetwork when needed
             raise NotImplementedError(

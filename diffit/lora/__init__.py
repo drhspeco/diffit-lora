@@ -6,7 +6,7 @@ EXACT preservation of original algorithms from diffit_blockwise_lora_finetuning.
 
 from .core import LoRALinear
 from .injection import inject_blockwise_lora, rank_for_module_path, match_target_linear_name
-from .config import LoRAConfig, LORA_CONFIG
+from .config import LORA_CONFIG
 from .utils import (
     save_lora_weights,
     load_lora_weights,
@@ -24,7 +24,6 @@ __all__ = [
     "match_target_linear_name",
     
     # Configuration
-    "LoRAConfig",
     "LORA_CONFIG",
     
     # Utilities

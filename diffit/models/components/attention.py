@@ -34,7 +34,7 @@ class TMSA(nn.Module):
     features for diffusion models, enabling better long-range dependencies.
     """
     
-    def __init__(self, d_model: int, num_heads: int, dropout: float, img_size: int):
+    def __init__(self, d_model: int, num_heads: int, dropout: float, img_size: int, device=None):
         super().__init__()
         self.space_embedding_size = d_model
         self.time_embedding_size = d_model
@@ -43,7 +43,12 @@ class TMSA(nn.Module):
         self.seq_len = img_size * img_size
         self.img_size = img_size
         self.d = d_model // num_heads
-        self.mask = causal_mask(self.seq_len)
+        
+        # Set up device
+        if device is None:
+            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = device
+        self.mask = causal_mask(self.seq_len, device)
 
         assert d_model % num_heads == 0, "d_model is not divisible by num_heads!"
 

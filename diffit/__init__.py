@@ -15,7 +15,7 @@ from .models import UShapedNetwork
 from .models.components import TMSA, DiffiTBlock, TimeEmbedding
 
 # LoRA imports
-from .lora import LoRALinear, inject_blockwise_lora, LoRAConfig
+from .lora import LoRALinear, inject_blockwise_lora, LORA_CONFIG
 from .lora import save_lora_weights, load_lora_weights, fuse_all_lora
 
 # Diffusion imports
@@ -32,9 +32,9 @@ from .diffusion import (
 # Training imports
 from .training import DiffiTTrainer
 
-# Evaluation imports
-from .evaluation import calculate_fid, calculate_kid, calculate_lpips
-from .evaluation import visualize_samples, plot_training_metrics
+# Evaluation imports - TODO: Implement when needed
+# from .evaluation import calculate_fid, calculate_kid, calculate_lpips
+# from .evaluation import visualize_samples, plot_training_metrics
 
 # Utility imports
 from .utils import load_config, save_config, setup_logging
@@ -50,7 +50,7 @@ __all__ = [
     # LoRA
     "LoRALinear",
     "inject_blockwise_lora",
-    "LoRAConfig",
+    "LORA_CONFIG",
     "save_lora_weights",
     "load_lora_weights",
     "fuse_all_lora",
@@ -67,12 +67,12 @@ __all__ = [
     # Training
     "DiffiTTrainer",
     
-    # Evaluation
-    "calculate_fid",
-    "calculate_kid", 
-    "calculate_lpips",
-    "visualize_samples",
-    "plot_training_metrics",
+    # Evaluation - TODO: Implement when needed
+    # "calculate_fid",
+    # "calculate_kid", 
+    # "calculate_lpips",
+    # "visualize_samples",
+    # "plot_training_metrics",
     
     # Utils
     "load_config",

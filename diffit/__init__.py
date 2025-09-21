@@ -30,7 +30,7 @@ from .diffusion import (
 )
 
 # Training imports
-from .training import DiffiTTrainer
+from .training import DiffiTTrainer, LoRAFineTuner
 
 # Evaluation imports - TODO: Implement when needed
 # from .evaluation import calculate_fid, calculate_kid, calculate_lpips
@@ -66,6 +66,7 @@ __all__ = [
     
     # Training
     "DiffiTTrainer",
+    "LoRAFineTuner",
     
     # Evaluation - TODO: Implement when needed
     # "calculate_fid",

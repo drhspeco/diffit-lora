@@ -20,10 +20,10 @@ class DiffiTBlock(nn.Module):
     """
     
     def __init__(self, d_model: int, num_heads: int, dropout: float, d_ff: int,
-                 img_size: int, label_size: int = None):
+                 img_size: int, device, label_size: int = None):
         super().__init__()
         self.ln = LayerNormalization()
-        self.tmsa = TMSA(d_model, num_heads, dropout, img_size)
+        self.tmsa = TMSA(d_model, num_heads, dropout, img_size, device)
         self.mlp = MLP(img_size, d_ff)
         self.time_embedding = TimeEmbedding(d_model, img_size * img_size)
 

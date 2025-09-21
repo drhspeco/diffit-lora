@@ -11,7 +11,8 @@ import numpy as np
 from PIL import Image
 from pathlib import Path
 
-from ..models import UShapedNetwork, LatentDiffiTNetwork
+from ..models import UShapedNetwork
+# from ..models import LatentDiffiTNetwork  # TODO: Implement when needed
 from ..diffusion import sample
 from ..utils import setup_logging
 
@@ -148,9 +149,11 @@ def main():
                 map_location=device
             )
         elif args.model_type == "latent-space":
-            model = LatentDiffiTNetwork.load_from_checkpoint(
-                args.checkpoint,
-                map_location=device
+            # TODO: Implement LatentDiffiTNetwork when needed
+            raise NotImplementedError(
+                "LatentDiffiTNetwork is not yet implemented. "
+                "Currently only UShapedNetwork (image-space) is available. "
+                "Please use model type 'image-space'."
             )
         else:
             raise ValueError(f"Unknown model type: {args.model_type}")

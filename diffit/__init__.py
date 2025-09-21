@@ -10,7 +10,8 @@ __author__ = "DiffiT Team"
 __email__ = "contact@diffit.ai"
 
 # Core model imports
-from .models import UShapedNetwork, LatentDiffiTNetwork
+from .models import UShapedNetwork
+# from .models import LatentDiffiTNetwork  # TODO: Implement when needed
 from .models.components import TMSA, DiffiTBlock, TimeEmbedding
 
 # LoRA imports
@@ -41,7 +42,7 @@ from .utils import load_config, save_config, setup_logging
 __all__ = [
     # Models
     "UShapedNetwork",
-    "LatentDiffiTNetwork", 
+    # "LatentDiffiTNetwork",  # TODO: Implement when needed
     "TMSA",
     "DiffiTBlock",
     "TimeEmbedding",

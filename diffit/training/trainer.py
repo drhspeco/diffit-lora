@@ -8,7 +8,8 @@ import pytorch_lightning as pl
 from typing import Dict, Any, Optional
 import torch
 
-from ..models import UShapedNetwork, LatentDiffiTNetwork
+from ..models import UShapedNetwork
+# from ..models import LatentDiffiTNetwork  # TODO: Implement when needed
 from ..lora import inject_blockwise_lora
 from ..utils import load_config, get_device
 from .data import DiffiTDataModule
@@ -59,17 +60,11 @@ class DiffiTTrainer:
                 L4=model_config.get('L4', 2)
             )
         elif model_config['type'] == "latent-space":
-            self.model = LatentDiffiTNetwork(
-                N_latent_blocks=model_config['N_latent_blocks'],
-                img_size=model_config['img_size'],
-                d_model=model_config['d_model'],
-                num_heads=model_config['num_heads'],
-                dropout=model_config['dropout'],
-                d_ff=model_config['d_ff'],
-                learning_rate=model_config['learning_rate'],
-                denoising_steps=model_config['denoising_steps'],
-                device=self.device,
-                label_size=model_config['label_size']
+            # TODO: Implement LatentDiffiTNetwork when needed
+            raise NotImplementedError(
+                "LatentDiffiTNetwork is not yet implemented. "
+                "Currently only UShapedNetwork (image-space) is available. "
+                "Please use model type 'image-space' or implement LatentDiffiTNetwork."
             )
         else:
             raise ValueError(f"Unknown model type: {model_config['type']}")

@@ -5,7 +5,7 @@ This module contains all DiffiT model architectures with exact algorithm preserv
 """
 
 from .unet import UShapedNetwork
-from .latent import LatentDiffiTNetwork
+# from .latent import LatentDiffiTNetwork  # TODO: Implement when needed
 from .components import (
     TMSA,
     DiffiTBlock,
@@ -25,7 +25,7 @@ from .components import (
 __all__ = [
     # Main models
     "UShapedNetwork",
-    "LatentDiffiTNetwork",
+    # "LatentDiffiTNetwork",  # TODO: Implement when needed
     
     # Core components
     "TMSA",

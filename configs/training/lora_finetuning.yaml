@@ -1,0 +1,58 @@
+# LoRA Fine-tuning Configuration for DiffiT
+# EXACT preservation of original fine-tuning hyperparameters
+
+training:
+  # Model configuration
+  model_config: "configs/models/unet_config.yaml"
+  lora_config: "configs/lora/blockwise_config.yaml"
+  
+  # Dataset configuration
+  dataset: "CIFAR"  # Target domain for fine-tuning
+  
+  # Fine-tuning hyperparameters (FIXED for stability)
+  num_epochs: 5
+  batch_size_train: 32  # Smaller batch for fine-tuning
+  batch_size_test: 16
+  learning_rate: 0.0005  # FIXED: Conservative LR (was 0.1, caused overflow)
+  weight_decay: 0.00001  # Light regularization
+  warmup_steps: 100      # Learning rate warmup
+  
+  # Optimization
+  optimizer: "Adam"
+  scheduler: null
+  gradient_clip_val: 0.5  # FIXED: More conservative (was 1.0)
+  
+  # PyTorch Lightning trainer settings
+  accelerator: "auto"
+  devices: "auto"
+  precision: "32-true"  # FIXED: Use FP32 to avoid overflow
+  
+  # Monitoring and checkpointing
+  monitor_metric: "val_loss"
+  save_top_k: 3
+  check_val_every_n_epoch: 2  # Evaluate every 2 epochs
+  log_every_n_steps: 50
+  
+  # Paths
+  pretrained_path: "./weights/ImageSpaceWeights/best_model.ckpt"
+  output_dir: "./weights/lora_finetuned/"
+  experiment_name: "diffit_lora_finetuning"
+  
+  # Transfer learning settings
+  freeze_base_model: true
+  enable_ema: true  # Exponential moving average
+
+# Data preprocessing
+data:
+  img_size: 32
+  num_workers: 2
+  pin_memory: true
+  
+  # Data augmentation for fine-tuning
+  augmentation:
+    enabled: true
+    horizontal_flip: 0.5
+    rotation_degrees: 5
+    
+  # Train/validation split
+  val_split: 0.1  # Use 10% for validation

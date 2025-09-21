@@ -1,0 +1,28 @@
+# UShapedNetwork (Image-space DiffiT) Configuration
+# EXACT preservation of original hyperparameters
+
+model:
+  type: "image-space"
+  architecture: "UShapedNetwork"
+  
+  # Model dimensions
+  d_model: 128
+  num_heads: 2
+  dropout: 0.1
+  d_ff: 256  # 2 * d_model
+  img_size: 32
+  
+  # Diffusion parameters
+  denoising_steps: 500
+  
+  # ResBlock group depths (L1, L2, L3, L4)
+  L1: 2
+  L2: 2  
+  L3: 2
+  L4: 2
+  
+  # Training parameters
+  learning_rate: 0.001
+  
+# Device configuration
+device: "auto"  # auto-detect, or specify "cuda", "cpu", "mps"

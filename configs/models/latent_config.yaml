@@ -1,0 +1,26 @@
+# LatentDiffiTNetwork (Latent-space DiffiT) Configuration
+# EXACT preservation of original hyperparameters
+
+model:
+  type: "latent-space"
+  architecture: "LatentDiffiTNetwork"
+  
+  # Model dimensions
+  d_model: 128
+  num_heads: 2
+  dropout: 0.1
+  d_ff: 256  # 2 * d_model
+  img_size: 32
+  
+  # Latent-specific parameters
+  N_latent_blocks: 1
+  label_size: 10  # For CIFAR-10 classes
+  
+  # Diffusion parameters
+  denoising_steps: 500
+  
+  # Training parameters
+  learning_rate: 0.001
+  
+# Device configuration
+device: "auto"  # auto-detect, or specify "cuda", "cpu", "mps"

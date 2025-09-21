@@ -1,0 +1,48 @@
+# Base Training Configuration for DiffiT
+# EXACT preservation of original training hyperparameters
+
+training:
+  # Model configuration
+  model_config: "configs/models/unet_config.yaml"
+  
+  # Dataset configuration
+  dataset: "CIFAR"  # Options: "CIFAR", "IMAGENETTE"
+  
+  # Training hyperparameters
+  num_epochs: 3
+  batch_size_train: 64
+  batch_size_test: 16
+  learning_rate: 0.001
+  weight_decay: 0.0
+  
+  # Optimization
+  optimizer: "Adam"
+  scheduler: null
+  gradient_clip_val: 1.0
+  
+  # PyTorch Lightning trainer settings
+  accelerator: "auto"
+  devices: "auto"
+  precision: "32-true"
+  
+  # Monitoring and checkpointing
+  monitor_metric: "train_loss"
+  save_top_k: 3
+  check_val_every_n_epoch: 1
+  log_every_n_steps: 25
+  
+  # Paths
+  output_dir: "./weights/ImageSpaceWeights/"
+  experiment_name: "diffit_base_training"
+  
+# Data preprocessing
+data:
+  img_size: 32
+  num_workers: 2
+  pin_memory: true
+  
+  # Data augmentation
+  augmentation:
+    enabled: false
+    horizontal_flip: 0.5
+    rotation_degrees: 5

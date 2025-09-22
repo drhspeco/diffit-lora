@@ -167,6 +167,14 @@ def main():
             # Load checkpoint and create model with proper parameters
             checkpoint = torch.load(args.checkpoint, map_location=device)
             
+            # Get state dict
+            state_dict = checkpoint.get('state_dict', checkpoint)
+            
+            # Check if this is a LoRA checkpoint by looking for LoRA parameters
+            is_lora_checkpoint = any('lora_A' in key or 'lora_B' in key for key in state_dict.keys())
+            
+            print(f"📊 Checkpoint type: {'LoRA fine-tuned' if is_lora_checkpoint else 'Standard'}")
+            
             # Create model with standard parameters (should match training config)
             model = UShapedNetwork(
                 learning_rate=0.001,  # Not used during inference
@@ -180,11 +188,22 @@ def main():
                 L1=2, L2=2, L3=2, L4=2  # Standard ResBlock group sizes
             )
             
-            # Load the state dict
-            if 'state_dict' in checkpoint:
-                model.load_state_dict(checkpoint['state_dict'], strict=False)
+            if is_lora_checkpoint:
+                # This is a LoRA checkpoint - inject LoRA and load
+                print("🔧 Injecting LoRA adapters for checkpoint loading...")
+                from diffit.lora import inject_blockwise_lora, LORA_CONFIG
+                
+                # Inject LoRA with the same configuration used during training
+                inject_blockwise_lora(model, LORA_CONFIG)
+                
+                # Load the LoRA checkpoint
+                model.load_state_dict(state_dict, strict=False)
+                print("✅ LoRA checkpoint loaded successfully!")
+                
             else:
-                model.load_state_dict(checkpoint, strict=False)
+                # This is a standard checkpoint
+                model.load_state_dict(state_dict, strict=False)
+                print("✅ Standard checkpoint loaded successfully!")
         elif args.model_type == "latent-space":
             # TODO: Implement LatentDiffiTNetwork when needed
             raise NotImplementedError(

@@ -34,7 +34,7 @@ training:
   log_every_n_steps: 50
   
   # Paths
-  pretrained_path: "./weights/ImageSpaceWeights/best_model.ckpt"
+  pretrained_path: "/content/best_model.ckpt"
   output_dir: "./weights/lora_finetuned/"
   experiment_name: "diffit_lora_finetuning"
   

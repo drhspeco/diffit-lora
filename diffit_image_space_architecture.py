@@ -140,7 +140,7 @@ if MODEL == "latent-space":
 elif MODEL == "image-space":
     DATASET_NAME = "CIFAR"
     DIR_WEIGHTS = "./weights/ImageSpaceWeights/"
-    PATH_WEIGHTS = "./weights/ImageSpaceWeights/best_model.ckpt"
+    PATH_WEIGHTS = "/content/best_model.ckpt"
 
     BATCH_SIZE_TRAIN = 64
     BATCH_SIZE_TEST = 16

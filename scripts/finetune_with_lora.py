@@ -30,7 +30,7 @@ def main():
     parser.add_argument(
         "--base-checkpoint",
         type=str,
-        default="./weights/ImageSpaceWeights/best_model.ckpt",
+        default="/content/best_model.ckpt",
         help="Path to base model checkpoint"
     )
     

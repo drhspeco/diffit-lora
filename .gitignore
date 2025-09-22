@@ -23,13 +23,13 @@ share/python-wheels/
 MANIFEST
 
 # PyTorch
-*.pth
-*.pt
-*.ckpt
+# *.pth
+# *.pt
+# *.ckpt
 
 # Jupyter Notebooks
 .ipynb_checkpoints
-*.ipynb
+# *.ipynb
 
 # Environment
 .env
